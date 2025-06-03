@@ -8,6 +8,8 @@ int main(int argc, char ** argv)
 	MPI_Init();
 	MPI_Comm_rank(MPI_COMM_WORLD, &pid); //Proceso actual
 	MPI_Comm_size(MPI_COMM_WORLD, &np);  //Total de procesos
+
+	int N;
 	
 	if(pid == 0) //Proceso Padre -> inicializa las coordenadas
 	{
