@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/mi_programa.dir/src/main.c.o CMakeFiles/mi_programa.dir/src/cola.c.o CMakeFiles/mi_programa.dir/src/Cliente.c.o -o mi_programa  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 

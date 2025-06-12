@@ -1,0 +1,3 @@
+/home/dani/Documentos/ProyectoASO2/Practica/Practica2ASO/build/CMakeFiles/mi_programa.dir
+/home/dani/Documentos/ProyectoASO2/Practica/Practica2ASO/build/CMakeFiles/edit_cache.dir
+/home/dani/Documentos/ProyectoASO2/Practica/Practica2ASO/build/CMakeFiles/rebuild_cache.dir
