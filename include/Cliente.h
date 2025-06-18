@@ -1,7 +1,7 @@
 #ifndef CLIENTE_H
 #define CLIENTE_H
 #include <stdio.h>
-#include "Caja.h"
+
 
 
 enum ESTADO{
@@ -12,8 +12,6 @@ enum ESTADO{
 
 typedef struct{
     int nCliente; //id del cliente 
-
-    Caja *caja; //Caja asignada al cliente
 
     enum ESTADO estado; //Donde se encuentra el cliente actualmente
 

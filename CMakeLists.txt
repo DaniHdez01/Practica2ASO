@@ -9,7 +9,7 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 find_package(MPI COMPONENTS C REQUIRED )
 
 # Crear ejecutable
-add_executable(mi_programa src/main.c src/Cliente.c)
+add_executable(mi_programa  src/Cliente.c src/cola.c)
 
 target_link_libraries(mi_programa PRIVATE MPI::MPI_C)
 
