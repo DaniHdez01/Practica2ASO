@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/dani/Documentos/ProyectoASO2/Practica/Practica2ASO/build",
-  "command": "/usr/bin/clang -I/home/dani/Documentos/ProyectoASO2/Practica/Practica2ASO/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -g -std=gnu99 -o CMakeFiles/mi_programa.dir/src/main.c.o -c /home/dani/Documentos/ProyectoASO2/Practica/Practica2ASO/src/main.c",
-  "file": "/home/dani/Documentos/ProyectoASO2/Practica/Practica2ASO/src/main.c"
-}
-]

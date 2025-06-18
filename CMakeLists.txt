@@ -5,14 +5,13 @@ project(MiProyectoC VERSION 1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-# Incluir la carpeta de headers
-include_directories(include)
-
 # Buscar MPI
-find_package(MPI REQUIRED)
+find_package(MPI COMPONENTS C REQUIRED )
 
 # Crear ejecutable
-add_executable(mi_programa src/main.c)
+add_executable(mi_programa src/main.c src/Cliente.c)
 
-target_include_directories(mi_programa PRIVATE ${MPI_C_INCLUDE_DIRS})
-target_link_libraries(mi_programa PRIVATE ${MPI_C_LIBRARIES})
+target_link_libraries(mi_programa PRIVATE MPI::MPI_C)
+
+# Incluir la carpeta de headers
+target_include_directories(mi_programa PRIVATE include)
