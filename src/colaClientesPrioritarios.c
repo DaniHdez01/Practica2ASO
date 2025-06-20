@@ -45,6 +45,12 @@ int main (int argc, char * argv[]){
         Cliente newVIP = crearCliente(i+clientesEnCola, 1);  // El id sumamos i a los clientes totales para que tengan un id distinto al resto
         colaPrioritaria[i] = colaPrioritaria[i]; 
     }
+    for(int i = 0; i<cajasOperativas; i++){
+        //EStablecemos un numero de cajas nuevas que sean la mitad de los clientes que hay en cola 
+        Caja nueva = cajaNueva(i, 0); 
+        nueva.estado = ABIERTA;
+        cajasAbiertas[i] = nueva; 
+    }
 
     if(rank == 0){ // Proceso padre -> Selecciona los clientes de la cola y los manda al proceso hijo. 
 
@@ -83,10 +89,12 @@ int main (int argc, char * argv[]){
 
                 //Comprobamos los clientes en cola y las cajas 
 
-                if(clientesEnCola == cajasOperativas){ //Si clientes = colas, cerramos una caja
+                if(clientesEnCola == cajasOperativas){
+                    cajasAbiertas[cajasOperativas].estado = CERRADA;//Si clientes = colas, cerramos una caja
                     cajasOperativas--; 
                 } else if(cajasOperativas == clientesEnCola/2){ //Si los clienets son elo doble, abrimos una caja
                     cajasOperativas++; 
+                    Caja nuevaCaja = cajaNueva(cajasOperativas, 0); 
                 }
 
             }

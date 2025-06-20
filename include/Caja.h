@@ -18,7 +18,5 @@ typedef struct Caja{
 }Caja; 
 
 Caja cajaNueva(); 
-void abrirCaja(); 
-void cerrarCaja(); 
 
 #endif
