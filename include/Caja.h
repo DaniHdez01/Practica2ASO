@@ -10,7 +10,7 @@ enum ESTADOCAJA{
     ATENDIENDO,
 }; 
 
-typedef struct{
+typedef struct Caja{
     int nCaja; 
     enum ESTADOCAJA estado; 
     int prioritaria; 

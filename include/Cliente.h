@@ -2,7 +2,7 @@
 #define CLIENTE_H
 #include <stdio.h>
 
-
+struct Caja; 
 
 enum ESTADO{
     COLA, 
@@ -20,7 +20,7 @@ typedef struct{
 } Cliente; 
 
 Cliente crearCliente(int n, int prioridad); 
-void clienteEnCola(); 
-void ClienteEnCaja(); 
+
+void atenderCliente(Cliente *cliente, struct Caja *caja); 
 void dormirCliente(); 
 #endif

@@ -5,12 +5,11 @@
 #include "Cliente.h"
 #include "Caja.h"
 
-//APARTADO A: Cola de clientes y cajas simple, sin prioridad
+//APARTADO B: Cola de clientes prioritariuos y cajas normales
 
 
 int main (int argc, char * argv[]){
 
-    int hayClientes = 1;
     int rank, size;
 
     MPI_Init(&argc, &argv);
@@ -21,21 +20,58 @@ int main (int argc, char * argv[]){
     MPI_Datatype CajaData; //Datatype para las Cajas
 
     Cliente colaClientes[100];
+    Cliente colaPrioritaria[10]; //Guardamos a los clientes prioritarios en una cola a parte 
     Caja cajasAbiertas[100];  
     int clientesEnCola = 0; 
     int cajasOperativas= 0; 
-    printf("Indica con cuantos clientes deseas operar"); 
-    scanf("%d", &clientesEnCola); 
+    int clientesVIP = 0; 
 
+    printf("Indica con cuantos clientes deseas operar"); 
+    scanf("%d", &clientesEnCola);
+
+    //Imprimimos un mensaje de error para que no se pueda poner mas de 100 clientes
+    if(clientesEnCola>100){
+        printf("ERROR: el numero de clientes debe ser menor que 100"); 
+        return 1; 
+    } 
+    printf("Indica con cuantos clientes deseas operar"); 
+    scanf("%d", &clientesVIP);
+    clientesEnCola += clientesVIP; 
     for(int i =0; i<clientesEnCola; i++){
-        Cliente nuevo = crearCliente(i, 0); //Como no hay que tener en cuenta la prioridad la iniciamos todas a 0 
+        Cliente nuevo = crearCliente(i, 0); //Los clientes prioritarios ahora se generan de forma aleatoria 
         colaClientes[i] = nuevo; 
     }
+    for(int i =0; i<clientesVIP; i++){
+        Cliente newVIP = crearCliente(i+clientesEnCola, 1);  // El id sumamos i a los clientes totales para que tengan un id distinto al resto
+        colaPrioritaria[i] = colaPrioritaria[i]; 
+    }
 
-    if(rank == 0){ // Proceso padre -> Distribuye clientes a las cajas
+    if(rank == 0){ // Proceso padre -> Selecciona los clientes de la cola y los manda al proceso hijo. 
 
         int clienteActual = 0; 
+        int vipActual = 0; 
         while(clientesEnCola>0){
+            while (clientesVIP >0){
+                for (int i = 0; i < size; i++){
+                    //Pasamos un cliente al proceso esclavo
+                    Cliente VIPact = colaClientes[clienteActual]; 
+                    printf("Turno del cliente: %d", VIPact.nCliente); 
+                    MPI_Send(&VIPact, 1, ClienteData, i, 1, MPI_COMM_WORLD);  
+    
+                    //Quitamos un cliente de la cola 
+                    clientesVIP--; 
+    
+                    //Comprobamos los clientes en cola y las cajas 
+    
+                    if(clientesEnCola == cajasOperativas){ //Si clientes = colas, cerramos una caja
+                        cajasOperativas--; 
+                    } else if(cajasOperativas == clientesEnCola/2){ //Si los clienets son elo doble, abrimos una caja
+                        cajasOperativas++; 
+                    }
+    
+                }
+                vipActual = (vipActual +1) % clientesVIP; 
+            }
             for (int i = 0; i < size; i++){
                 //Pasamos un cliente al proceso esclavo
                 Cliente act = colaClientes[clienteActual]; 
@@ -57,7 +93,7 @@ int main (int argc, char * argv[]){
             //Actualizamos el indice en el que se encuentra el padre 
             clienteActual= (clienteActual +1) %clientesEnCola; 
     }
-    } else{
+    } else{ //Proceso hijo, recibe los clientes y le asigna la caja correspondiente
         Cliente recibido; 
         MPI_Recv(&recibido, 1, ClienteData, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
         Caja actual; 
