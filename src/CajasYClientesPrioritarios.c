@@ -21,10 +21,14 @@ int main (int argc, char * argv[]){
 
     Cliente colaClientes[100];
     Cliente colaPrioritaria[10]; //Guardamos a los clientes prioritarios en una cola a parte 
+
     Caja cajasAbiertas[100];  
+    Caja cajasPrioritarias[25]; //Las cajas prioritarias las guardamos en una lista a parte  
+
     int clientesEnCola = 0; 
     int cajasOperativas= 0; 
     int clientesVIP = 0; 
+    int cajasVIP = 0; 
 
     printf("Indica con cuantos clientes deseas operar"); 
     scanf("%d", &clientesEnCola);

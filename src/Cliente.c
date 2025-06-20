@@ -26,10 +26,10 @@ void atenderCliente(Cliente *cliente, struct Caja *caja){
     if (cliente->prioritario == 0){
         cliente->estado = ATENDIDO; 
         printf("El cliente %d esta siendo atendido en la caja %d", cliente->nCliente, caja->nCaja); 
-        sleep(500); 
+        sleep(rand()%6+5); 
     } else {
         cliente->estado = ATENDIDO; 
         printf("El cliente %d esta siendo atendido en la caja %d", cliente->nCliente, caja->nCaja); 
-        sleep(1000); //Si el cliente es prioritario se le atiende más tiempo y en una caja prioritario 
+        sleep(rand()&11+10); //Si el cliente es prioritario se le atiende más tiempo y en una caja prioritario 
     }
 }

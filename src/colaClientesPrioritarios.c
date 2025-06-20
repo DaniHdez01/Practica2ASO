@@ -17,14 +17,14 @@ int main (int argc, char * argv[]){
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     MPI_Datatype ClienteData; //Datatype para enviar clientes
-    MPI_Datatype CajaData; //Datatype para las Cajas
 
     Cliente colaClientes[100];
     Cliente colaPrioritaria[10]; //Guardamos a los clientes prioritarios en una cola a parte 
     Caja cajasAbiertas[100];  
+
     int clientesEnCola = 0; 
     int cajasOperativas= 0; 
-    int clientesVIP = 0; 
+    int clientesVIP = 0; //Son los clientes prioritarios 
 
     printf("Indica con cuantos clientes deseas operar"); 
     scanf("%d", &clientesEnCola);
@@ -56,6 +56,7 @@ int main (int argc, char * argv[]){
 
         int clienteActual = 0; 
         int vipActual = 0; 
+        //Ahora el padre mirará primero en la cola de clientes prioritarios hasta que esté vacia, una vez hecho mirará en la cola normal 
         while(clientesEnCola>0){
             while (clientesVIP >0){
                 for (int i = 0; i < size; i++){
@@ -78,6 +79,8 @@ int main (int argc, char * argv[]){
                 }
                 vipActual = (vipActual +1) % clientesVIP; 
             }
+
+            //Procesamos las colas normales una vez la VIP esté vacia 
             for (int i = 0; i < size; i++){
                 //Pasamos un cliente al proceso esclavo
                 Cliente act = colaClientes[clienteActual]; 
@@ -118,7 +121,7 @@ int main (int argc, char * argv[]){
 
         clientesEnCola++; 
         colaClientes[clientesEnCola] = recibido; 
-
+        //Hemos decidido que lso clientes prioritarios vuelven a la cola normal
     }
 
     MPI_Finalize();
