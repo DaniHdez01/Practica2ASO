@@ -19,7 +19,7 @@ typedef struct{
                     // 0= El cliente no es prioritario, irá a una caja normal 
 } Cliente; 
 
-Cliente crearCliente(int n); 
+Cliente crearCliente(int n, int prioridad); 
 void clienteEnCola(); 
 void ClienteEnCaja(); 
 void dormirCliente(); 

@@ -28,14 +28,14 @@ int main (int argc, char * argv[]){
     scanf("%d", &clientesEnCola); 
 
     for(int i =0; i<clientesEnCola; i++){
-        Cliente nuevo = crearCliente(i); 
+        Cliente nuevo = crearCliente(i, 0); //Como no hay que tener en cuenta la prioridad la iniciamos todas a 0 
         colaClientes[i] = nuevo; 
     }
 
     if(rank == 0){ // Proceso padre -> Distribuye clientes a las cajas
 
         int clienteActual = 0; 
-        while(colaClientes>0){
+        while(clientesEnCola>0){
             for (int i = 0; i < size; i++){
                 //Pasamos un cliente al proceso esclavo
                 Cliente act = colaClientes[clienteActual]; 
@@ -67,9 +67,8 @@ int main (int argc, char * argv[]){
                 actual = cajasAbiertas[i];  
             }
         }
-        printf("Cliente n: %d siendo atendido en la caja %d", recibido.nCliente, actual.nCaja); 
-        actual.clienteAtendido = &recibido; 
-        recibido.estado = DORMIDO; 
+        atenderCliente(recibido, actual); 
+        dormirCliente(actual);  
         printf("Cliente n: %d ya ha sido atendido, vuelve a la cola", recibido.nCliente); 
         actual.estado = ABIERTA;
 
